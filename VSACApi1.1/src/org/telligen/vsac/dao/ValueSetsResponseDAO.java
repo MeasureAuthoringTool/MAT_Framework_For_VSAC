@@ -1,18 +1,14 @@
 package org.telligen.vsac.dao;
 
-import java.io.File;
-import java.io.PrintWriter;
-
 import org.dom4j.Document;
 import org.telligen.vsac.VSACSharedConstants;
-import org.telligen.vsac.map.mapper.ValueSetsResponseMapper;
 import org.telligen.vsac.object.ValueSetsResponse;
 import org.telligen.vsac.service.VSACTicketService;
 import org.telligen.vsac.service.VSACValueSetService;
 
 public class ValueSetsResponseDAO {
 
-	private ValueSetsResponseMapper mapper;
+	// private ValueSetsResponseMapper mapper;
 	private VSACTicketService ticketService;
 	private VSACValueSetService valueSetService;
 	private String ticketGrantingTicket;
@@ -235,15 +231,15 @@ public class ValueSetsResponseDAO {
 		try {
 			Document valueSetXMLDoc = valueSetService
 					.getSpecifiedURLValueSetDocument(url);
-			File file;
-			PrintWriter fileWriter;
-
-			file = File.createTempFile("XMLData", ".xml");
-			fileWriter = new PrintWriter(file);
-			fileWriter.println(valueSetXMLDoc.asXML());
-			System.out.println("XML:" + valueSetXMLDoc.asXML());
-			fileWriter.close();
-			mapper = new ValueSetsResponseMapper(file, multipleSets);
+			/*
+			 * File file; PrintWriter fileWriter;
+			 * 
+			 * file = File.createTempFile("XMLData", ".xml"); fileWriter = new
+			 * PrintWriter(file); fileWriter.println(valueSetXMLDoc.asXML());
+			 * System.out.println("XML:" + valueSetXMLDoc.asXML());
+			 * fileWriter.close(); mapper = new ValueSetsResponseMapper(file,
+			 * multipleSets);
+			 */
 			ValueSetsResponse v = new ValueSetsResponse();
 			v.setXmlPayLoad(valueSetXMLDoc.asXML());
 			return v;
@@ -255,7 +251,7 @@ public class ValueSetsResponseDAO {
 			v.setFailResponse(true);
 			if (e instanceof java.net.SocketTimeoutException) {
 				v.setFailReason(VSACSharedConstants.REQUEST_TIMEDOUT);
-			}else{
+			} else {
 				v.setFailReason(VSACSharedConstants.REQUEST_FAILED);
 			}
 			return v;
